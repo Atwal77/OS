@@ -38,12 +38,13 @@
 ->Process vs Thread?
 The primary difference is that threads within the same process run in a shared memory space, while processes run in separate memory spaces.
 Threads are not independent of one another like processes are, and as a result threads share with other threads their code section, data section, and OS resources (like open files and signals). But, like process, a thread has its own program counter (PC), register set, and stack space.
-Advantages of Thread over Process
+
+->Advantages of Thread over Process
 1. Responsiveness: If the process is divided into multiple threads, if one thread completes its execution, then its output can be immediately returned.
 
 2. Faster context switch: Context switch time between threads is lower compared to process context switch. Process context switching requires more overhead from the CPU.
 
-3. Effective utilization of multiprocessor system: If we have multiple threads in a single process, then we can schedule multiple threads on multiple processor. This will make process execution faster.
+3. Enhanced throughput of the system: If a process is divided into multiple threads, and each thread function is considered as one job, then the number of jobs completed per unit of time is increased, thus increasing the throughput of the system.
 
 4. Resource sharing: Resources like code, data, and files can be shared among all threads within a process.
 Note: stack and registers can’t be shared among the threads. Each thread has its own stack and registers.
@@ -52,9 +53,144 @@ Note: stack and registers can’t be shared among the threads. Each thread has i
 
 
 
+->Types of threads:->
+		User level thread : it is supported above the kernel.it is implemented by the thread library at user level.kernel is unaware of user level thread.it is fast to create and manage.
 
 
 
+		Kernel level thread : it is supported directly by the operating system.kernel performs thread creation,execution and management in kernel space.it is slower to create and manage.
+
+
+->benefits of multithreaded programming:->
+		
+	1. Responsiveness: If the process is divided into multiple threads, if one thread completes its execution, then its output can be immediately returned.
+
+	2. Faster context switch: Context switch time between threads is lower compared to process context switch. Process context switching requires more overhead from the CPU.
+
+	3. Enhanced throughput of the system: If a process is divided into multiple threads, and each thread function is considered as one job, then the number of jobs completed per unit of time is 		   increased, thus increasing the throughput of the system.
+
+	4. Resource sharing: Resources like code, data, and files can be shared among all threads within a process.
+	Note: stack and registers can’t be shared among the threads. Each thread has its own stack and registers.
+
+	5. Communication: Communication between multiple threads is easier, as the threads shares common address space. while in process we have to follow some specific communication technique for 	 	    communication between two process.
+
+
+->context switch:->
+	Transferring the control from one process to other process requires saving the state of the old process and loading the saved state for the new process.
+	Context Switching involves storing the context or state of a process so that it can be reloaded when required and execution can be resumed from the same point as earlier. This is a feature of a 	  multitasking operating system and allows a single CPU to be shared by multiple processes.
+
+
+
+->disadvantages of context switch:->
+	
+	->time taken to switch from one process to other process results in overhead.
+	->system does no useful work while switching.
+	->one of the solutions is to go for threading when possible because it is more economical.
+
+
+->scheduling:->
+		Scheduling of processes/work is done to finish the work on time.
+
+		Below are different time with respect to a process.
+
+		Arrival Time: Time at which the process arrives in the ready queue.
+		Completion Time: Time at which process completes its execution.
+		Burst Time: Time required by a process for CPU execution.
+		Turn Around Time: Time Difference between completion time and arrival time.
+		Turn Around Time = Completion Time – Arrival Time
+
+		Waiting Time(W.T): Time Difference between turn around time and burst time.
+		Waiting Time = Turn Around Time – Burst Time
+
+
+->Why do we need scheduling?
+		A typical process involves both I/O time and CPU time. In a uni programming system like MS-DOS, time spent waiting for I/O is wasted and CPU is free during this time. In multi programming 			systems, one process can use CPU while another is waiting for I/O. This is possible only with process scheduling.
+
+ 
+
+->Objectives of Process Scheduling Algorithm
+
+		Max CPU utilization [Keep CPU as busy as possible]
+		Fair allocation of CPU.
+		Max throughput [Number of processes that complete their execution per time unit]
+		Min turnaround time [Time taken by a process to finish execution]
+		Min waiting time [Time a process waits in ready queue]
+		Min response time [Time when a process produces first response]
+
+->process scheduling algorithms:->
+
+		->First Come First Serve (FCFS): Simplest scheduling algorithm that schedules according to arrival times of processes. First come first serve scheduling algorithm states that the process 			  that requests the CPU first is allocated the CPU first. It is implemented by using the FIFO queue. When a process enters the ready queue, its PCB is linked onto the tail of the queue. 			  When the CPU is free, it is allocated to the process at the head of the queue. The running process is then removed from the queue. FCFS is a non-preemptive scheduling algorithm.
+
+		  Note:First come first serve suffers from convoy effect.
+
+	
+		->Shortest Job First (SJF): Process which have the shortest burst time are scheduled first.If two processes have the same bust time then FCFS is used to break the tie. It is a 		  non-preemptive scheduling algorithm.
+
+
+		->Priority Based scheduling (Non-Preemptive): In this scheduling, processes are scheduled according to their priorities, i.e., highest priority process is scheduled first. If priorities of 			  two processes match, then schedule according to arrival time. Here starvation of process is possible.
+
+		->Round Robin Scheduling: Each process is assigned a fixed time(Time Quantum/Time Slice) in cyclic way.It is designed especially for the time-sharing system. The ready queue is treated as 			  a circular queue. The CPU scheduler goes around the ready queue, allocating the CPU to each process for a time interval of up to 1-time quantum. To implement Round Robin scheduling, we 			  keep the ready queue as a FIFO queue of processes. New processes are added to the tail of the ready queue. The CPU scheduler picks the first process from the ready queue, sets a timer to 			  interrupt after 1-time quantum, and dispatches the process. One of two things will then happen. The process may have a CPU burst of less than 1-time quantum. In this case, the process 			  itself will release the CPU voluntarily. The scheduler will then proceed to the next process in the ready queue. Otherwise, if the CPU burst of the currently running process is longer 			  than 1-time quantum, the timer will go off and will cause an interrupt to the operating system. A context switch will be executed, and the process will be put at the tail of the ready 			  queue. The CPU scheduler will then select the next process in the ready queue.
+
+
+		->Shortest Remaining Time First (SRTF): It is preemptive mode of SJF algorithm in which jobs are schedule according to shortest remaining time.
+
+
+
+->Important notes about scheduling:->
+	
+			Some useful facts about Scheduling Algorithms:
+
+			FCFS can cause long waiting times, especially when the first job takes too much CPU time.
+
+			Both SJF and Shortest Remaining time first algorithms may cause starvation. Consider a situation when the long process is there in the ready queue and shorter processes keep coming.
+
+			If time quantum for Round Robin scheduling is very large, then it behaves same as FCFS scheduling.
+
+			SJF is optimal in terms of average waiting time for a given set of processes,i.e., average waiting time is minimum with this scheduling, but problems are, how to know/predict the 				time of next job.
+
+
+->In computer science, overhead is any combination of excess or indirect computation time, memory, bandwidth, or other resources that are required to perform a specific task.
+
+->In computing, preemption is the act of temporarily interrupting a task being carried out by a computer system, without requiring its cooperation, and with the intention of resuming the task at a later time. Such changes of the executed task are known as context switches.
+
+
+-> Preemptive Scheduling: 
+			Preemptive scheduling is used when a process switches from running state to ready state or from waiting state to ready state. The resources (mainly CPU cycles) are allocated to the 				process for the limited amount of time and then is taken away, and the process is again placed back in the ready queue if that process still has CPU burst time remaining. That 			process stays in ready queue till it gets next chance to execute. 
+
+			Algorithms based on preemptive scheduling are: Round Robin (RR),Shortest Remaining Time First (SRTF), Priority (preemptive version), etc.
+
+-> Non-Preemptive Scheduling: 
+			Non-preemptive Scheduling is used when a process terminates, or a process switches from running to waiting state. In this scheduling, once the resources (CPU cycles) is allocated 				to a process, the process holds the CPU till it gets terminated or it reaches a waiting state. In case of non-preemptive scheduling does not interrupt a process running CPU in 			middle of the execution. Instead, it waits till the process complete its CPU burst time and then it can allocate the CPU to another process. 
+
+			Algorithms based on non-preemptive scheduling are: Shortest Job First (SJF basically non preemptive) and Priority (non preemptive version), etc.
+
+
+->Key Differences Between Preemptive and Non-Preemptive Scheduling: 
+ 
+
+				In preemptive scheduling the CPU is allocated to the processes for the limited time whereas in Non-preemptive scheduling, the CPU is allocated to the process till it 					terminates or switches to waiting state. 
+				 
+				The executing process in preemptive scheduling is interrupted in the middle of execution when higher priority one comes whereas, the executing process in non-preemptive 					scheduling is not interrupted in the middle of execution and wait till its execution. 
+				 
+				In Preemptive Scheduling, there is the overhead of switching the process from ready state to running state, vise-verse, and maintaining the ready queue. Whereas in case of 					non-preemptive scheduling has no overhead of switching the process from running state to ready state. 
+				 
+				In preemptive scheduling, if a high priority process frequently arrives in the ready queue then the process with low priority has to wait for a long, and it may have to 					starve. On the other hands, in the non-preemptive scheduling, if CPU is allocated to the process having larger burst time then the processes with small burst time may have 					to starve. 
+				 
+				Preemptive scheduling attain flexible by allowing the critical processes to access CPU as they arrive into the ready queue, no matter what process is executing currently. 					Non-preemptive scheduling is called rigid as even if a critical process enters the ready queue the process running CPU is not disturbed. 
+				 
+				The Preemptive Scheduling has to maintain the integrity of shared data that’s why it is cost associative as it which is not the case with Non-preemptive Scheduling.
+
+
+->Dispatch latency-> time it takes for the dispatcher to stop one process and start another process;
+
+
+->starvation:->it is the indefinite waiting of resources by a process as resources are been allocation to other processes.
+
+->aging:->technique to avoid starvation by increasing priority of starved processes.
+
+->response time:-> amount of time it takes from when the request was submitted until the first response was produced.
+
+->throughput:-> the number of process that completes their execution per unit time.
 
 
 
