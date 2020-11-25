@@ -194,6 +194,64 @@ Note: stack and registers can’t be shared among the threads. Each thread has i
 
 
 
+->long term scheduler:-> they are the job schedulers that select processes from the job queue and load them into memory for execution.
+
+->short term scheduler:-> they are cpu schedulers that select a process from the ready queue and allocates cpu to one of them.
+
+
+->scheduling queues:->
+
+		->job queue:-> when a process enters the system it is placed in the job queue.
+		
+		->ready queue:->processes that are residing in the main memory and are ready and waiting to execute are kept on a separate list called the ready queue.
+
+		->device queue:->a list of process that are waiting for a particular I/O device is called the device queue.
+
+
+->dispatcher:-> gives control of cpu to the process selected by the short term scheduler.
+
+		it involves :-> switching context->switching to user mode -> jumping to the proper location in the user program to restart that program.
+
+
+
+
+->deadlock:
+
+
+->process synchronization:https://www.youtube.com/watch?v=4BInccFSKso&list=PLmXKhU9FNesSFvj6gASuWmQd23Ul5omtD&index=67
+
+
+	->semaphores:-> can be used to solve critical section problem,can be used to decide order of execution among processes,also for resource management(helps in managing how much amount of parallel 				processes we need to take in !)
+
+	->mutex vs semaphores:->//https://www.youtube.com/watch?v=DvF3AsTglUU
+
+						Using Mutex:
+
+						A mutex provides mutual exclusion, either producer or consumer can have the key (mutex) and proceed with their work. As long as the buffer is filled by 						producer, the consumer needs to wait, and vice versa.
+
+						At any point of time, only one thread can work with the entire buffer. The concept can be generalized using semaphore.
+
+						Using Semaphore:
+
+						A semaphore is a generalized mutex. In lieu of single buffer, we can split the 4 KB buffer into four 1 KB buffers (identical resources). A semaphore can be 							associated with these four buffers. The consumer and producer can work on different buffers at the same time.
+
+						Misconception:
+
+						There is an ambiguity between binary semaphore and mutex. We might have come across that a mutex is binary semaphore. But they are not! The purpose of mutex 							and semaphore are different. May be, due to similarity in their implementation a mutex would be referred as binary semaphore.
+
+						Strictly speaking, a mutex is locking mechanism used to synchronize access to a resource. Only one task (can be a thread or process based on OS abstraction) 							can acquire the mutex. It means there is ownership associated with mutex, and only the owner can release the lock (mutex).
+
+						Semaphore is signaling mechanism (“I am done, you can carry on” kind of signal). For example, if you are listening songs (assume it as one task) on your 							mobile and at the same time your friend calls you, an interrupt is triggered upon which an interrupt service routine (ISR) signals the call processing task 							to wakeup.
+
+
+
+->inter process communication:pipes,sockets;
+
+
+
+->memory management:->paging ,segmentation,virtual memory;
+
+
 
 
 
